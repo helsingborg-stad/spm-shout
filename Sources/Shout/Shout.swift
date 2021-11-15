@@ -64,14 +64,15 @@ public class Shout: ObservableObject {
             return Event(items, level:.error, filename: filename, lineNumber: lineNumber, function: function)
         }
     }
-
-    
     public let category: String
     public var disabled = false
+    private let subject = Subject()
+    public var publisher:Publisher
     private let logger: OSLog
     private var publishers = Set<AnyCancellable>()
     public init(_ category: String) {
         self.category = category
+        self.publisher = subject.eraseToAnyPublisher()
         self.logger = OSLog(subsystem: Bundle.main.bundleIdentifier ?? "unknown app", category: category)
     }
     public func info(_ items: Any..., filename: String = #file, lineNumber: Int = #line, function: String = #function) {
@@ -87,6 +88,7 @@ public class Shout: ObservableObject {
         if disabled {
             return
         }
+        subject.send(event)
         os_log("%@", event.description)
     }
     public func attach(_ publisher:Publisher) {
