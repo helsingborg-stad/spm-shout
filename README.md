@@ -1,4 +1,8 @@
 # Shout
+## DEPRECATED
+Package will not recieve any updates, please use the Shout library in https://github.com/helsingborg-stad/spm-daisy instead.
+
+## About
 Code logger with file, function and code-line support. 
 
 ## Usage
